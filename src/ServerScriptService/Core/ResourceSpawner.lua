@@ -1,13 +1,14 @@
 --[[
 ResourceSpawner.lua
 
-Purpose: Server authoritative resource management for MVP
-Dependencies: ResourceData, WorldGenerator
-Last Modified: Phase 0 - Week 1
-Performance Notes: Handles up to 60 resource nodes efficiently
+Purpose: Enhanced server authoritative resource management for Week 2
+Dependencies: ResourceData, WorldGenerator, PlacementManager, PlacementConfig
+Last Modified: Phase 0 - Week 2
+Performance Notes: Handles up to 200 resource nodes with procedural placement
 
 Public Methods:
-- SpawnInitialResources(): Create starting resource nodes
+- SpawnInitialResources(): Legacy basic resource spawning (Week 1)
+- SpawnEnhancedResources(): New procedural resource spawning (Week 2)
 - HarvestResource(player, resourceId): Process resource harvesting
 - RespawnResource(resourceId): Handle resource respawning
 - CleanupInactiveNodes(): Performance maintenance
@@ -16,6 +17,10 @@ Public Methods:
 local ResourceSpawner = {}
 local ResourceData = require(game.ReplicatedStorage.SharedModules.ResourceData)
 local RunService = game:GetService("RunService")
+
+-- Week 2 imports for enhanced functionality
+local PlacementManager = require(script.Parent.PlacementManager)
+local PlacementConfig = require(game.ReplicatedStorage.SharedModules.PlacementConfig)
 
 -- Track all resource nodes server-side (authoritative)
 local activeResourceNodes = {}
@@ -28,7 +33,7 @@ local INTERACTION_RANGE = 10 -- studs
 local SPAWN_GRID_SIZE = 15 -- from WorldGenerator
 
 function ResourceSpawner:Initialize()
-    -- Get world bounds from WorldGenerator
+    -- Get world bounds from WorldGenerator (legacy)
     local WorldGenerator = require(script.Parent.WorldGenerator)
     WORLD_BOUNDS = WorldGenerator:GetWorldBounds()
     
@@ -36,6 +41,21 @@ function ResourceSpawner:Initialize()
     self:CreateResourceFolders()
     
     print("✅ ResourceSpawner initialized")
+end
+
+-- Week 2: Enhanced initialization with procedural placement
+function ResourceSpawner:InitializeEnhanced()
+    -- Get enhanced world bounds from WorldGenerator
+    local WorldGenerator = require(script.Parent.WorldGenerator)
+    WORLD_BOUNDS = WorldGenerator:GetEnhancedBounds()
+    
+    -- Update performance configuration for larger world
+    MAX_RESOURCE_NODES = PlacementConfig.Performance.maxTotalResources
+    
+    -- Create resource folders
+    self:CreateResourceFolders()
+    
+    print("✅ Enhanced ResourceSpawner initialized with procedural placement")
 end
 
 function ResourceSpawner:CreateResourceFolders()
@@ -111,6 +131,50 @@ function ResourceSpawner:SpawnInitialResources()
         print("   " .. resourceType .. ":", count)
     end
     print("📊 Total resource nodes:", totalSpawned)
+end
+
+-- Week 2: Enhanced procedural resource spawning
+function ResourceSpawner:SpawnEnhancedResources()
+    print("🌊 Spawning enhanced procedural resources...")
+    
+    -- Use PlacementManager for procedural placement
+    local regionCenter = Vector3.new(0, WORLD_BOUNDS.y.floor + 5, 0)
+    local regionSize = math.max(
+        WORLD_BOUNDS.x.max - WORLD_BOUNDS.x.min,
+        WORLD_BOUNDS.z.max - WORLD_BOUNDS.z.min
+    )
+    
+    -- Available resource types for procedural placement
+    local availableResourceTypes = {"Kelp", "Rock", "Pearl"}
+    
+    -- Use PlacementManager to place resources procedurally
+    local placedResources = PlacementManager:PlaceResourcesInRegion(
+        regionCenter,
+        regionSize,
+        availableResourceTypes
+    )
+    
+    -- Register placed resources with the spawner system
+    for _, resource in ipairs(placedResources) do
+        local resourceId = resource.Name
+        local resourceType = resource:GetAttribute("ResourceType")
+        
+        -- Add to active resource nodes for harvesting system
+        activeResourceNodes[resourceId] = {
+            id = resourceId,
+            type = resourceType,
+            position = resource.Position,
+            model = resource,
+            harvestable = true,
+            spawnTime = tick(),
+            procedural = true -- Mark as procedurally placed
+        }
+    end
+    
+    -- Print placement report
+    PlacementManager:PrintPlacementReport()
+    
+    print("✅ Enhanced procedural resource spawning complete")
 end
 
 function ResourceSpawner:IsValidSpawnPosition(position)
