@@ -3,16 +3,20 @@ Main.server.lua
 
 Purpose: Main server initialization script for AquaticMetropolis
 Dependencies: All core systems
-Last Modified: Phase 0 - Week 2
+Last Modified: Phase 0 - Week 4
 
 This script runs when the server starts and initializes all game systems.
-Supports both Week 1 (legacy) and Week 2 (enhanced) world generation.
+Supports all Phase 0 systems including Week 4 UI and building systems.
 ]]--
 
--- Configuration: Set to true to use Week 2 enhanced features
+-- Configuration: Set to true to use enhanced features
 local USE_ENHANCED_GENERATION = true
+local ENABLE_WEEK4_SYSTEMS = true
 
-if USE_ENHANCED_GENERATION then
+if ENABLE_WEEK4_SYSTEMS then
+    print("🌊 AquaticMetropolis UI & Building Beta v4.0 Starting...")
+    print("📅 Phase 0 - Week 4 Implementation")
+elseif USE_ENHANCED_GENERATION then
     print("🌊 AquaticMetropolis Enhanced Beta v2.0 Starting...")
     print("📅 Phase 0 - Week 2 Implementation")
 else
@@ -52,6 +56,33 @@ local function initializeServer()
     -- 3. Initialize PlayerDataManager
     local PlayerDataManager = require(script.Parent.Core.PlayerDataManager)
     PlayerDataManager:Initialize()
+    
+    -- 4. Initialize Week 4 systems if enabled
+    if ENABLE_WEEK4_SYSTEMS then
+        print("🔧 Initializing Week 4 systems...")
+        
+        -- Initialize Tool System
+        local ToolSystem = require(script.Parent.Core.ToolSystem)
+        ToolSystem:Initialize()
+        print("   ✅ Tool System initialized")
+        
+        -- Initialize Stamina System
+        local StaminaSystem = require(script.Parent.Core.StaminaSystem)
+        StaminaSystem:Initialize()
+        print("   ✅ Stamina System initialized")
+        
+        -- Initialize Crafting System
+        local CraftingSystem = require(script.Parent.Core.CraftingSystem)
+        CraftingSystem:Initialize()
+        print("   ✅ Crafting System initialized")
+        
+        -- Initialize Building System
+        local BuildingSystem = require(script.Parent.Core.BuildingSystem)
+        BuildingSystem:Initialize()
+        print("   ✅ Building System initialized")
+        
+        print("🎉 Week 4 systems ready!")
+    end
     
     print("✅ All server systems initialized successfully!")
     
@@ -119,7 +150,16 @@ if not initSuccess then
 else
     print("🎉 AquaticMetropolis server is ready for players!")
     
-    if USE_ENHANCED_GENERATION then
+    if ENABLE_WEEK4_SYSTEMS then
+        print("🎯 Week 4 UI & Building objectives:")
+        print("   • Test enhanced inventory with drag-and-drop")
+        print("   • Validate crafting interface with progress indicators")
+        print("   • Test tool durability and stamina integration")
+        print("   • Validate building placement system")
+        print("   • Test tutorial system for new player onboarding")
+        print("   • Measure UI performance and responsiveness")
+        print("   • Collect feedback for Phase 1 preparation")
+    elseif USE_ENHANCED_GENERATION then
         print("🎯 Enhanced Beta objectives:")
         print("   • Test enhanced procedural world generation")
         print("   • Validate improved resource placement")
