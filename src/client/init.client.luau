@@ -31,6 +31,7 @@ local function waitForModules()
     uiFolder:WaitForChild("InventoryInterface")
     uiFolder:WaitForChild("CraftingInterface") 
     uiFolder:WaitForChild("PlayerHUD")
+    uiFolder:WaitForChild("FeedbackSystem")
     
     local clientFolder = starterGui:WaitForChild("Client")
     clientFolder:WaitForChild("ResourceInteraction")
@@ -47,6 +48,7 @@ local function initializeClient()
     local InventoryInterface = require(StarterGui.UI.InventoryInterface)
     local CraftingInterface = require(StarterGui.UI.CraftingInterface) 
     local PlayerHUD = require(StarterGui.UI.PlayerHUD)
+    local FeedbackSystem = require(StarterGui.UI.FeedbackSystem)
     local ResourceInteraction = require(StarterGui.Client.ResourceInteraction)
     local TutorialSystem = require(StarterGui.Client.TutorialSystem)
     
@@ -60,6 +62,9 @@ local function initializeClient()
     local playerHUD = PlayerHUD.new()
     print("   ✅ Player HUD initialized")
     
+    local feedbackSystem = FeedbackSystem.new()
+    print("   ✅ Feedback System initialized")
+    
     local resourceInteraction = ResourceInteraction.new()
     print("   ✅ Resource Interaction initialized")
     
@@ -72,6 +77,7 @@ local function initializeClient()
         inventoryUI = inventoryUI,
         craftingUI = craftingUI, 
         playerHUD = playerHUD,
+        feedbackSystem = feedbackSystem,
         resourceInteraction = resourceInteraction,
         tutorialSystem = tutorialSystem
     }

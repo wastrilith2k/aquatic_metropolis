@@ -84,6 +84,33 @@ local function initializeServer()
         print("🎉 Week 4 systems ready!")
     end
     
+    -- 5. Initialize Week 5 analytics systems
+    print("📊 Initializing Week 5 analytics systems...")
+    
+    -- Initialize Beta Analytics System
+    local BetaAnalytics = require(script.Parent.Core.BetaAnalytics)
+    local analyticsSuccess = BetaAnalytics:Initialize()
+    if analyticsSuccess then
+        print("   ✅ Beta Analytics System initialized")
+    else
+        warn("   ❌ Beta Analytics System failed to initialize")
+    end
+    
+    -- Initialize Gate Evaluation System
+    local GateEvaluation = require(script.Parent.Core.GateEvaluation)
+    local gateSuccess = GateEvaluation:Initialize()
+    if gateSuccess then
+        print("   ✅ Gate Evaluation System initialized")
+    else
+        warn("   ❌ Gate Evaluation System failed to initialize")
+    end
+    
+    print("📈 Week 5 analytics systems ready!")
+    
+    -- Store analytics reference globally for monitoring
+    _G.BetaAnalytics = BetaAnalytics
+    _G.GateEvaluation = GateEvaluation
+    
     print("✅ All server systems initialized successfully!")
     
     -- Start monitoring systems
