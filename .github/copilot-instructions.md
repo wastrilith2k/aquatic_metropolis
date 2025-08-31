@@ -136,8 +136,48 @@ Player data saves every 30 seconds with triple redundancy:
 
 Use specific RemoteEvents, never generic:
 
-- `HarvestResource(resourceType, position)` - Harvest attempt
-- `CraftItem(recipeId)` - Crafting request
-- `PlaceBuilding(itemId, position)` - Building placement
+- `HarvestSuccess/HarvestFailure` - Server broadcasts harvest results
+- `InitializeUI` - Server sends full player data on join
+- `UpdateInventory` - Server pushes inventory changes to client
+- RemoteEvents created in `ResourceEvents.lua` initialization script
+
+### Server-Side State Management
+
+All game state is authoritative on server:
+
+- `activeResourceNodes` table tracks all resource instances with IDs
+- Player data cached in `playerDataCache[player.UserId]` for performance
+- Resource respawn timers use `delay()` for non-blocking background processing
+- Anti-cheat: Distance validation (10 studs max) for all player interactions
+
+### Visual Model Generation Pattern
+
+Procedural models created server-side using `visual` data from SharedModules:
+
+```lua
+-- From ResourceData.lua visual definitions
+local model = Instance.new("Part")
+model.Size = visual.size
+model.Shape = Enum.PartType[visual.shape]
+model.Color = visual.color
+model.Material = visual.material
+```
+
+### Animation and Effects System
+
+Background animations use `spawn()` to avoid blocking:
+
+- Kelp sway animations with sine wave movement
+- Pearl glow pulsing with PointLight brightness
+- Hover effects change model color temporarily
+- Use `TweenService` for UI feedback, not model animations
+
+### Week-Based Evolution Pattern
+
+Code supports both legacy (Week 1) and enhanced (Week 2) systems:
+
+- `SpawnInitialResources()` vs `SpawnEnhancedResources()`
+- `LEGACY_WORLD_CONFIG` vs `ENHANCED_WORLD_CONFIG`
+- Feature flags like `useEnhancedGeneration` control which systems activate
 
 When adding features, follow the server-authoritative pattern: client requests, server validates and broadcasts results.
