@@ -128,6 +128,31 @@ local function initializeServer()
     
     print("🤝 Week 6 social systems ready!")
     
+    -- 7. Initialize Week 7 performance optimization systems
+    print("⚡ Initializing Week 7 performance systems...")
+    
+    -- Initialize Performance Profiler
+    local PerformanceProfiler = require(script.Parent.Core.PerformanceProfiler)
+    local profilerSuccess = PerformanceProfiler:Initialize()
+    if profilerSuccess then
+        print("   ✅ Performance Profiler initialized")
+        _G.PerformanceProfiler = PerformanceProfiler
+    else
+        warn("   ❌ Performance Profiler failed to initialize")
+    end
+    
+    -- Initialize Advanced Analytics
+    local AdvancedAnalytics = require(script.Parent.Core.AdvancedAnalytics)
+    local advancedAnalyticsSuccess = AdvancedAnalytics.new():Initialize()
+    if advancedAnalyticsSuccess then
+        print("   ✅ Advanced Analytics System initialized")
+        _G.AdvancedAnalytics = AdvancedAnalytics
+    else
+        warn("   ❌ Advanced Analytics System failed to initialize")
+    end
+    
+    print("🚀 Week 7 performance systems ready!")
+    
     print("✅ All server systems initialized successfully!")
     
     -- Start monitoring systems
@@ -195,14 +220,17 @@ else
     print("🎉 AquaticMetropolis server is ready for players!")
     
     if ENABLE_WEEK4_SYSTEMS then
-        print("🎯 Week 4 UI & Building objectives:")
-        print("   • Test enhanced inventory with drag-and-drop")
-        print("   • Validate crafting interface with progress indicators")
-        print("   • Test tool durability and stamina integration")
-        print("   • Validate building placement system")
-        print("   • Test tutorial system for new player onboarding")
-        print("   • Measure UI performance and responsiveness")
-        print("   • Collect feedback for Phase 1 preparation")
+        print("🎯 Week 7 Performance & Mobile Objectives:")
+        print("   • Test comprehensive performance profiling system")
+        print("   • Validate mobile UI optimization and touch controls")
+        print("   • Test cross-platform responsive design scaling")
+        print("   • Validate virtual joystick and gesture recognition")
+        print("   • Test advanced analytics and predictive modeling")
+        print("   • Measure real-time performance monitoring accuracy")
+        print("   • Test automated alert system and notifications")
+        print("   • Validate memory optimization and garbage collection")
+        print("   • Test frame rate stabilization across devices")
+        print("   • Collect comprehensive performance data for Week 8 gate decision")
     elseif USE_ENHANCED_GENERATION then
         print("🎯 Enhanced Beta objectives:")
         print("   • Test enhanced procedural world generation")

@@ -1,9 +1,9 @@
 --[[
 init.client.luau
 
-Purpose: Main client initialization script for Week 4 UI systems
-Dependencies: All UI systems and RemoteEvents
-Last Modified: Phase 0 - Week 4
+Purpose: Main client initialization script for Week 7 performance & mobile systems
+Dependencies: All UI systems, RemoteEvents, and Week 7 optimization modules
+Last Modified: Phase 0 - Week 7
 
 This script initializes all client-side systems including:
 - Enhanced inventory UI with drag-and-drop
@@ -11,10 +11,12 @@ This script initializes all client-side systems including:
 - Player HUD with stamina and tool durability
 - Resource interaction system with tool validation
 - Tutorial system for new player onboarding
+- Mobile UI optimizer for cross-platform support
+- Performance monitoring integration
 ]]--
 
 print("🎮 AquaticMetropolis Client Starting...")
-print("📅 Phase 0 - Week 4 UI & Building Systems")
+print("📅 Phase 0 - Week 7 Performance & Mobile Optimization")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -37,8 +39,9 @@ local function waitForModules()
     clientFolder:WaitForChild("ResourceInteraction")
     clientFolder:WaitForChild("TutorialSystem")
     clientFolder:WaitForChild("TutorialSystemEnhanced")
+    clientFolder:WaitForChild("MobileUIOptimizer")
     
-    print("✅ All UI modules loaded")
+    print("✅ All UI and Week 7 modules loaded")
 end
 
 -- Initialize client systems
@@ -53,6 +56,9 @@ local function initializeClient()
     local ResourceInteraction = require(StarterGui.Client.ResourceInteraction)
     local TutorialSystem = require(StarterGui.Client.TutorialSystem)
     local TutorialSystemEnhanced = require(StarterGui.Client.TutorialSystemEnhanced)
+    
+    -- Load Week 7 optimization modules
+    local MobileUIOptimizer = require(StarterGui.Client.MobileUIOptimizer)
     
     -- Initialize systems
     local inventoryUI = InventoryInterface.new()
@@ -74,6 +80,10 @@ local function initializeClient()
     local tutorialSystemEnhanced = TutorialSystemEnhanced.new()
     print("   ✅ Enhanced Tutorial System initialized")
     
+    -- Initialize Week 7 mobile optimization system
+    local mobileUIOptimizer = MobileUIOptimizer.new()
+    print("   ✅ Mobile UI Optimizer initialized")
+    
     print("🎉 All client systems ready!")
     
     return {
@@ -82,7 +92,8 @@ local function initializeClient()
         playerHUD = playerHUD,
         feedbackSystem = feedbackSystem,
         resourceInteraction = resourceInteraction,
-        tutorialSystemEnhanced = tutorialSystemEnhanced
+        tutorialSystemEnhanced = tutorialSystemEnhanced,
+        mobileUIOptimizer = mobileUIOptimizer
     }
 end
 
@@ -122,11 +133,15 @@ spawn(function()
         handleError(result)
     else
         print("🎮 Client ready for interaction!")
-        print("🎯 Week 4 Features Available:")
+        print("🎯 Week 7 Features Available:")
         print("   • TAB - Open/Close Inventory") 
         print("   • C - Open/Close Crafting")
         print("   • Click resources to harvest with tools")
         print("   • Tutorial will guide new players")
         print("   • HUD shows stamina and tool durability")
+        print("   • Mobile-optimized touch controls")
+        print("   • Virtual joystick for mobile devices")
+        print("   • Responsive UI scaling")
+        print("   • Real-time performance monitoring")
     end
 end)
