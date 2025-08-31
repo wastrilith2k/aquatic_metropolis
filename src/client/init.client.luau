@@ -36,6 +36,7 @@ local function waitForModules()
     local clientFolder = starterGui:WaitForChild("Client")
     clientFolder:WaitForChild("ResourceInteraction")
     clientFolder:WaitForChild("TutorialSystem")
+    clientFolder:WaitForChild("TutorialSystemEnhanced")
     
     print("✅ All UI modules loaded")
 end
@@ -51,6 +52,7 @@ local function initializeClient()
     local FeedbackSystem = require(StarterGui.UI.FeedbackSystem)
     local ResourceInteraction = require(StarterGui.Client.ResourceInteraction)
     local TutorialSystem = require(StarterGui.Client.TutorialSystem)
+    local TutorialSystemEnhanced = require(StarterGui.Client.TutorialSystemEnhanced)
     
     -- Initialize systems
     local inventoryUI = InventoryInterface.new()
@@ -68,8 +70,9 @@ local function initializeClient()
     local resourceInteraction = ResourceInteraction.new()
     print("   ✅ Resource Interaction initialized")
     
-    local tutorialSystem = TutorialSystem.new()
-    print("   ✅ Tutorial System initialized")
+    -- Use enhanced tutorial system for Week 6
+    local tutorialSystemEnhanced = TutorialSystemEnhanced.new()
+    print("   ✅ Enhanced Tutorial System initialized")
     
     print("🎉 All client systems ready!")
     
@@ -79,7 +82,7 @@ local function initializeClient()
         playerHUD = playerHUD,
         feedbackSystem = feedbackSystem,
         resourceInteraction = resourceInteraction,
-        tutorialSystem = tutorialSystem
+        tutorialSystemEnhanced = tutorialSystemEnhanced
     }
 end
 

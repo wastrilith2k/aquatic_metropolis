@@ -111,6 +111,23 @@ local function initializeServer()
     _G.BetaAnalytics = BetaAnalytics
     _G.GateEvaluation = GateEvaluation
     
+    -- 6. Initialize Week 6 social systems
+    print("👥 Initializing Week 6 social systems...")
+    
+    -- Initialize Social Framework
+    local SocialFramework = require(script.Parent.Core.SocialFramework)
+    local socialSuccess = SocialFramework:Initialize()
+    if socialSuccess then
+        print("   ✅ Social Framework initialized")
+    else
+        warn("   ❌ Social Framework failed to initialize")
+    end
+    
+    -- Store social reference globally for cross-system access
+    _G.SocialFramework = SocialFramework
+    
+    print("🤝 Week 6 social systems ready!")
+    
     print("✅ All server systems initialized successfully!")
     
     -- Start monitoring systems
